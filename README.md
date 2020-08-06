@@ -27,8 +27,9 @@ Etapes de configuration du projet
 
 DANS LE CAS OU VOUS AVEZ DEJA WAMPSERVER (Faites toutes les étapes précédentes sauf l'étape 2) veuillez reconfigurer le fichier DBAccess.php (si nécéssaire) se trouvant à C:\wamp64\www\application\src\configs
 Vous devrer modifier les lignes :
-	private $login="Votre Login";
-    private $password="Votre Mot de passe";
+
+private $login="Votre Login";
+private $password="Votre Mot de passe";
 	
 	Remplacer << Votre Login par votre >> login actuel si ce n'est pas celui par défaut
 	Remplacer << Votre Mot de passe >> par votre mot de passe actuel si ce n'est pas celui par défaut
