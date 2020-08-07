@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Aug 06, 2020 at 05:07 PM
+-- Generation Time: Aug 07, 2020 at 08:04 PM
 -- Server version: 5.7.19
 -- PHP Version: 5.6.31
 
@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `neighbours` (
   `address` varchar(50) NOT NULL,
   `phone` varchar(50) NOT NULL,
   `about` text NOT NULL,
-  `favorite` tinyint(1) NOT NULL,
+  `favorite` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
