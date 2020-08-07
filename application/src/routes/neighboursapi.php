@@ -27,9 +27,9 @@
                 $address = $params['address'];
                 $phone = $params['phone'];
 				$about = $params['about'];
-				$favorite = $params['favorite'];
+				//$favorite = $params['favorite'];
 
-                $sql = "insert into neighbours (name,address,phone,about,favorite) values (:name,:address,:phone,:about,:favorite)";
+                $sql = "insert into neighbours (name,address,phone,about) values (:name,:address,:phone,:about)";
 
                 $db_access = new DBAccess ();
                 $db_connection = $db_access->getConnection();
@@ -39,7 +39,7 @@
                 $statement->bindParam(':address', $address);
                 $statement->bindParam(':phone', $phone);
 				$statement->bindParam(':about', $about);
-				$statement->bindParam(':favorite', $favorite);
+				//$statement->bindParam(':favorite', $favorite);
                 $statement->execute();
                 
                 $response = $old_response->withHeader('Content-type', 'application/json');
@@ -166,6 +166,47 @@
             return $response;
         }
     );
+	
+	/**
+     * route - UPDATE - update a neighbour by id - PUT method
+	 * Elle permet d'ajouter ou de retirer un voisin des favoris
+     */
+    $app->put
+    (
+        '/markneighbour/{id}', 
+        function (Request $request, Response $old_response) {
+            try {
+
+                $id = $request->getAttribute('id');
+
+                $params = $request->getQueryParams();
+				$favorite = $params['favorite'];
+				
+
+                $sql = "update neighbours set favorite = :favorite where id = :id";
+
+                $db_access = new DBAccess ();
+                $db_connection = $db_access->getConnection();
+
+                $statement = $db_connection->prepare($sql);
+				$statement->bindParam(':favorite', $favorite);
+                $statement->bindParam(':id', $id);
+                $statement->execute();
+
+                $db_access->releaseConnection();
+
+                $response = $old_response->withHeader('Content-Type', 'application/json');
+                $body = $response->getBody();
+                $body->write(json_encode(message(200, 'OK', "The neighbour has been updated successfully.")));
+            } catch (Exception $exception) {
+                $response = $old_response->withHeader('Content-Type', 'application/json');
+                $body = $response->getBody();
+                $body->write(json_encode(message(500, 'KO', $exception->getMessage())));
+            }
+
+            return $response;
+        }
+    );
 
     /**
      * route - UPDATE - update a neighbour by id - PUT method
@@ -184,10 +225,9 @@
                 $address = $params['address'];
                 $phone = $params['phone'];
 				$about = $params['about'];
-				$favorite = $params['favorite'];
 				
 
-                $sql = "update neighbours set name = :name, address = :address, phone = :phone, about = :about, favorite = :favorite where id = :id";
+                $sql = "update neighbours set name = :name, address = :address, phone = :phone, about = :about where id = :id";
 
                 $db_access = new DBAccess ();
                 $db_connection = $db_access->getConnection();
@@ -195,7 +235,6 @@
                 $statement = $db_connection->prepare($sql);
                 $statement->bindParam(':name', $name);
 				$statement->bindParam(':about', $about);
-				$statement->bindParam(':favorite', $favorite);
                 $statement->bindParam(':address', $address);
                 $statement->bindParam(':phone', $phone);
                 $statement->bindParam(':id', $id);
